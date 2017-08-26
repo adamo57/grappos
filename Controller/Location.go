@@ -11,6 +11,8 @@ import (
 
 var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
 
+//DataRetriever
+//Make calls to api for data
 func DataRetriever(m *Model.LocationsAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
@@ -32,11 +34,16 @@ func DataRetriever(m *Model.LocationsAPIResponse, q string) error {
 
 // GetLocations
 // returns all locations
-func GetLocations() (*Model.LocationsAPIResponse, error) {
+func GetLocations(n int) (*Model.LocationsAPIResponse, error) {
 
 	var s = new(Model.LocationsAPIResponse)
+	queryParams := ""
 
-	err := DataRetriever(s, baseURL)
+	if n > 0 {
+		queryParams = fmt.Sprintf("&limit=%d", n)
+	}
+
+	err := DataRetriever(s, baseURL+queryParams)
 
 	return s, err
 }
