@@ -7,4 +7,5 @@ import (
 
 func main() {
 	fmt.Println(Controller.GetLocations())
+	fmt.Println(Controller.SearchForLocation("11238"))
 }
