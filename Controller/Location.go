@@ -13,7 +13,7 @@ var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
 
 //DataRetriever
 //Make calls to api for data
-func DataRetriever(m *Model.LocationsAPIResponse, q string) error {
+func LocationDataRetriever(m *Model.LocationsAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
 		panic(err.Error())
@@ -43,7 +43,7 @@ func GetLocations(n int) (*Model.LocationsAPIResponse, error) {
 		queryParams = fmt.Sprintf("&limit=%d", n)
 	}
 
-	err := DataRetriever(s, baseURL+queryParams)
+	err := LocationDataRetriever(s, baseURL+queryParams)
 
 	return s, err
 }
@@ -55,7 +55,7 @@ func SearchForLocation(l string) (*Model.LocationsAPIResponse, error) {
 
 	var s = new(Model.LocationsAPIResponse)
 
-	err := DataRetriever(s, baseURL+queryParams)
+	err := LocationDataRetriever(s, baseURL+queryParams)
 
 	return s, err
 }
