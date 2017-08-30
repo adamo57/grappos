@@ -32,7 +32,7 @@ func RetailerDataRetriever(m *Model.RetailersAPIResponse, q string) error {
 	return err
 }
 
-func SearchCoordinates(lat float32, lon float32) (*Model.RetailersAPIResponse, error) {
+func SearchCoordinates(lat string, lon string) (*Model.RetailersAPIResponse, error) {
 	var s = new(Model.RetailersAPIResponse)
 	queryString := fmt.Sprintf("?lat=%d?lon=%d", lat, lon)
 
