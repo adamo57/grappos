@@ -11,7 +11,7 @@ import (
 
 var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
 
-//DataRetriever
+//LocationDataRetriever
 //Make calls to api for data
 func LocationDataRetriever(m *Model.LocationsAPIResponse, q string) error {
 	res, err := http.Get(q)

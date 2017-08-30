@@ -1,7 +1,5 @@
 package Controller
 
-//NOTE: this doesnt actually work on the API, but im going to write it anyways ¯\_(ツ)_/¯
-
 import (
 	"encoding/json"
 	"fmt"
@@ -34,9 +32,9 @@ func ProductDataRetriever(m *Model.ProductsAPIResponse, q string) error {
 	return err
 }
 
-func GetProducts(u int) (*Model.ProductsAPIResponse, error) {
+func GetProducts(u string) (*Model.ProductsAPIResponse, error) {
 	var s = new(Model.ProductsAPIResponse)
-	queryParams := fmt.Sprintf("?uid=%d", u)
+	queryParams := fmt.Sprintf("?uid=%s", u)
 
 	err := ProductDataRetriever(s, productBaseURL+queryParams)
 
