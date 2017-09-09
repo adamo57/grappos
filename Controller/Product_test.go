@@ -1,12 +1,12 @@
 package Controller
 
 import (
-	"testing"
 	"net/http"
+	"testing"
 )
 
-func TestLocation(t *testing.T) {
-	res, err := http.Get("http://www.grappos.com/api2/locate.php?1=1&format=json&locate=1")
+func TestProduct(t *testing.T) {
+	res, err := http.Get("http://www.grappos.com/api2/subscriber.php?1=1&format=json&uid=Ic-769313195")
 	if err != nil {
 		t.Fatal(err)
 	}
