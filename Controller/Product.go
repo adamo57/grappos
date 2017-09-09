@@ -11,8 +11,7 @@ import (
 
 var productBaseURL = "http://www.grappos.com/api2/subscriber.php?1=1&format=json"
 
-//DataRetriever
-//Make calls to api for data
+// ProductDataRetriever Make calls to api for data.
 func ProductDataRetriever(m *Model.ProductsAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
@@ -32,6 +31,7 @@ func ProductDataRetriever(m *Model.ProductsAPIResponse, q string) error {
 	return err
 }
 
+// GetProducts Returns a list of Products.
 func GetProducts(u string) (*Model.ProductsAPIResponse, error) {
 	var s = new(Model.ProductsAPIResponse)
 	queryParams := fmt.Sprintf("?uid=%s", u)

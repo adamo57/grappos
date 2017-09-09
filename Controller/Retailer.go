@@ -11,8 +11,7 @@ import (
 
 var retailerBaseURL = "http://www.grappos.com/api2/retailer.php?1=1&format=json"
 
-//DataRetriever
-//Make calls to api for data
+// RetailerDataRetriever Make calls to api for data.
 func RetailerDataRetriever(m *Model.RetailersAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
@@ -32,15 +31,17 @@ func RetailerDataRetriever(m *Model.RetailersAPIResponse, q string) error {
 	return err
 }
 
+// SearchCoordinates Searches a retailer based of their latitude and longitude.
 func SearchCoordinates(lat string, lon string) (*Model.RetailersAPIResponse, error) {
 	var s = new(Model.RetailersAPIResponse)
-	queryString := fmt.Sprintf("?lat=%d?lon=%d", lat, lon)
+	queryString := fmt.Sprintf("?lat=%s?lon=%s", lat, lon)
 
 	err := RetailerDataRetriever(s, retailerBaseURL+queryString)
 
 	return s, err
 }
 
+// SearchProductByID Searches for a retailer that has a given ProductID.
 func SearchProductByID(id int, st string) (*Model.RetailersAPIResponse, error) {
 	var s = new(Model.RetailersAPIResponse)
 	queryString := ""
@@ -56,6 +57,7 @@ func SearchProductByID(id int, st string) (*Model.RetailersAPIResponse, error) {
 	return s, err
 }
 
+// SearchBrandByID Searches for a retailer that has product(s) with a given BrandID.
 func SearchBrandByID(id int, st string) (*Model.RetailersAPIResponse, error) {
 	var s = new(Model.RetailersAPIResponse)
 	queryString := ""
@@ -71,6 +73,8 @@ func SearchBrandByID(id int, st string) (*Model.RetailersAPIResponse, error) {
 	return s, err
 }
 
+// CheckStoreType Checks the given input to determine which type of store
+// the retailer is.
 func CheckStoreType(st string) bool {
 	if st == "All" || st == "Wine Shops" || st == "Restaurants" {
 		return true
