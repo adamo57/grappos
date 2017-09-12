@@ -1,17 +1,37 @@
 package Controller
 
-import (
-	"testing"
-	"net/http"
-)
+import "testing"
 
-func TestLocation(t *testing.T) {
-	res, err := http.Get("http://www.grappos.com/api2/locate.php?1=1&format=json&locate=1")
-	if err != nil {
-		t.Fatal(err)
+func TestGetLocations(t *testing.T) {
+	locations := [4]int{0, 1, 2, 3}
+	invalidLocation := -1
+
+	for _, location := range locations {
+		_, err := GetLocations(location)
+
+		if err != nil {
+			t.Fatal("Error")
+		}
 	}
 
-	if res.StatusCode != 200 {
-		t.Fatal("Error fetching the data")
+	_, err := GetLocations(invalidLocation)
+	if err == nil {
+		t.Fatal("There isn't an error, which is bad")
+	}
+}
+
+func TestSearchForLocation(t *testing.T) {
+	goodLocation := "11238"
+	badLocation := "11"
+
+	_, err := SearchForLocation(goodLocation)
+
+	if err != nil {
+		t.Fatal("Invalid location")
+	}
+
+	_, err = SearchForLocation(badLocation)
+	if err == nil {
+		t.Fatal("This should not work")
 	}
 }
