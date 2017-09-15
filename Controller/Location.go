@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"hvíla/Model"
+	"grappos_api/Model"
 	"io/ioutil"
 	"log"
 	"net/http"

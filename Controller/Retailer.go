@@ -3,7 +3,7 @@ package Controller
 import (
 	"encoding/json"
 	"fmt"
-	"hvíla/Model"
+	"grappos_api/Model"
 	"io/ioutil"
 	"log"
 	"net/http"

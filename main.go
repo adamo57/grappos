@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hvíla/Controller"
+	"grappos_api/Controller"
 )
 
 func main() {
