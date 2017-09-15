@@ -34,7 +34,7 @@ func RetailerDataRetriever(m *Model.RetailersAPIResponse, q string) error {
 // SearchCoordinates Searches a retailer based of their latitude and longitude.
 func SearchCoordinates(lat string, lon string) (*Model.RetailersAPIResponse, error) {
 	var s = new(Model.RetailersAPIResponse)
-	queryString := fmt.Sprintf("?lat=%s?lon=%s", lat, lon)
+	queryString := fmt.Sprintf("&lat=%s&lon=%s", lat, lon)
 
 	err := RetailerDataRetriever(s, retailerBaseURL+queryString)
 
@@ -47,9 +47,9 @@ func SearchProductByID(id int, st string) (*Model.RetailersAPIResponse, error) {
 	queryString := ""
 
 	if CheckStoreType(st) {
-		queryString = fmt.Sprintf("?product_id=%d?store_type=%s", id, st)
+		queryString = fmt.Sprintf("&product_id=%d&store_type=%s", id, st)
 	} else {
-		queryString = fmt.Sprintf("?product_id=%d?store_type=All", id)
+		queryString = fmt.Sprintf("&product_id=%d&store_type=All", id)
 	}
 
 	err := RetailerDataRetriever(s, retailerBaseURL+queryString)
@@ -63,9 +63,9 @@ func SearchBrandByID(id int, st string) (*Model.RetailersAPIResponse, error) {
 	queryString := ""
 
 	if CheckStoreType(st) {
-		queryString = fmt.Sprintf("?brand_id=%d?store_type=%s", id, st)
+		queryString = fmt.Sprintf("&brand_id=%d&store_type=%s", id, st)
 	} else {
-		queryString = fmt.Sprintf("?brand_id=%d?store_type=All", id)
+		queryString = fmt.Sprintf("&brand_id=%d&store_type=All", id)
 	}
 
 	err := RetailerDataRetriever(s, retailerBaseURL+queryString)

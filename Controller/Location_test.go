@@ -10,7 +10,7 @@ func TestGetLocations(t *testing.T) {
 		_, err := GetLocations(location)
 
 		if err != nil {
-			t.Fatal("Error")
+			t.Fatal(err)
 		}
 	}
 
@@ -27,7 +27,7 @@ func TestSearchForLocation(t *testing.T) {
 	_, err := SearchForLocation(goodLocation)
 
 	if err != nil {
-		t.Fatal("Invalid location")
+		t.Fatal(err)
 	}
 
 	_, err = SearchForLocation(badLocation)

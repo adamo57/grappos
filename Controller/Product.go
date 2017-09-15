@@ -34,9 +34,13 @@ func ProductDataRetriever(m *Model.ProductsAPIResponse, q string) error {
 // GetProducts Returns a list of Products.
 func GetProducts(u string) (*Model.ProductsAPIResponse, error) {
 	var s = new(Model.ProductsAPIResponse)
-	queryParams := fmt.Sprintf("?uid=%s", u)
+	queryParams := fmt.Sprintf("&uid=%s", u)
 
 	err := ProductDataRetriever(s, productBaseURL+queryParams)
+
+	if len(s.Products) == 0 {
+		err = fmt.Errorf("Product not found with id: %s", u)
+	}
 
 	return s, err
 }
