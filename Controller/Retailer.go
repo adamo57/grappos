@@ -6,14 +6,35 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	"github.com/adamo57/grappos_api/Model"
 )
 
 var retailerBaseURL = "http://www.grappos.com/api2/retailer.php?1=1&format=json"
 
+// Retailer The sruct that holds the retailer data
+type Retailer struct {
+	RetailerID  string  `json:"RetailerID"`
+	Name        string  `json:"name"`
+	Address1    string  `json:"addr1"`
+	Address2    string  `json:"addr2"`
+	City        string  `json:"city"`
+	State       string  `json:"state"`
+	StateAbbr   string  `json:"state_abbr"`
+	ZipCode     string  `json:"zip"`
+	Phone       string  `json:"phone"`
+	Latitude    string  `json:"lat"`
+	Longitude   string  `json:"lon"`
+	IsRetail    string  `json:"is_retail"`
+	IsOnPremise string  `json:"is_on_premise"`
+	Distance    float32 `json:"distance"`
+}
+
+// RetailersAPIResponse Holds the API response
+type RetailersAPIResponse struct {
+	Retailers []Retailer `json:"retailers"`
+}
+
 // RetailerDataRetriever Make calls to api for data.
-func RetailerDataRetriever(m *Model.RetailersAPIResponse, q string) error {
+func RetailerDataRetriever(m *RetailersAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
 		panic(err.Error())
@@ -33,8 +54,8 @@ func RetailerDataRetriever(m *Model.RetailersAPIResponse, q string) error {
 }
 
 // SearchCoordinates Searches a retailer based of their latitude and longitude.
-func SearchCoordinates(lat string, lon string) (*Model.RetailersAPIResponse, error) {
-	var s = new(Model.RetailersAPIResponse)
+func SearchCoordinates(lat string, lon string) (*RetailersAPIResponse, error) {
+	var s = new(RetailersAPIResponse)
 	queryString := fmt.Sprintf("&lat=%s&lon=%s", lat, lon)
 
 	err := RetailerDataRetriever(s, retailerBaseURL+queryString)
@@ -43,8 +64,8 @@ func SearchCoordinates(lat string, lon string) (*Model.RetailersAPIResponse, err
 }
 
 // SearchProductByID Searches for a retailer that has a given ProductID.
-func SearchProductByID(id int, st string) (*Model.RetailersAPIResponse, error) {
-	var s = new(Model.RetailersAPIResponse)
+func SearchProductByID(id int, st string) (*RetailersAPIResponse, error) {
+	var s = new(RetailersAPIResponse)
 	queryString := ""
 
 	if CheckStoreType(st) {
@@ -59,8 +80,8 @@ func SearchProductByID(id int, st string) (*Model.RetailersAPIResponse, error) {
 }
 
 // SearchBrandByID Searches for a retailer that has product(s) with a given BrandID.
-func SearchBrandByID(id int, st string) (*Model.RetailersAPIResponse, error) {
-	var s = new(Model.RetailersAPIResponse)
+func SearchBrandByID(id int, st string) (*RetailersAPIResponse, error) {
+	var s = new(RetailersAPIResponse)
 	queryString := ""
 
 	if CheckStoreType(st) {

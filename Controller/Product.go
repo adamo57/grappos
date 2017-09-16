@@ -6,14 +6,25 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	"github.com/adamo57/grappos_api/Model"
 )
 
 var productBaseURL = "http://www.grappos.com/api2/subscriber.php?1=1&format=json"
 
+// Product The sruct that holds the product data
+type Product struct {
+	ProductID   string `json:"ProductID"`
+	Description string `json:"description"`
+	BrandID     string `json:"BrandID"`
+	IsToppick   int    `json:"is_toppick"`
+}
+
+// ProductsAPIResponse Holds the API response
+type ProductsAPIResponse struct {
+	Products []Product `json:"products"`
+}
+
 // ProductDataRetriever Make calls to api for data.
-func ProductDataRetriever(m *Model.ProductsAPIResponse, q string) error {
+func ProductDataRetriever(m *ProductsAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
 		panic(err.Error())
@@ -33,8 +44,8 @@ func ProductDataRetriever(m *Model.ProductsAPIResponse, q string) error {
 }
 
 // GetProducts Returns a list of Products.
-func GetProducts(u string) (*Model.ProductsAPIResponse, error) {
-	var s = new(Model.ProductsAPIResponse)
+func GetProducts(u string) (*ProductsAPIResponse, error) {
+	var s = new(ProductsAPIResponse)
 	queryParams := fmt.Sprintf("&uid=%s", u)
 
 	err := ProductDataRetriever(s, productBaseURL+queryParams)

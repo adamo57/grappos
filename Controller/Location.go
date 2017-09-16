@@ -7,14 +7,25 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	"github.com/adamo57/grappos_api/Model"
 )
 
 var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
 
+// Location The sruct that holds the location data
+type Location struct {
+	DisplayName string `json:"displayName"`
+	Latitude    string `json:"lat"`
+	Longitude   string `json:"lon"`
+	ZipCode     string `json:"zip"`
+}
+
+// LocationsAPIResponse Holds the API response
+type LocationsAPIResponse struct {
+	Locations []Location `json:"locations"`
+}
+
 // LocationDataRetriever Make calls to api for data.
-func LocationDataRetriever(m *Model.LocationsAPIResponse, q string) error {
+func LocationDataRetriever(m *LocationsAPIResponse, q string) error {
 	res, err := http.Get(q)
 
 	body, err := ioutil.ReadAll(res.Body)
@@ -25,9 +36,9 @@ func LocationDataRetriever(m *Model.LocationsAPIResponse, q string) error {
 }
 
 // GetLocations Returns all locations.
-func GetLocations(n int) (*Model.LocationsAPIResponse, error) {
+func GetLocations(n int) (*LocationsAPIResponse, error) {
 
-	var s = new(Model.LocationsAPIResponse)
+	var s = new(LocationsAPIResponse)
 	queryParams := ""
 
 	if n >= 0 {
@@ -45,10 +56,10 @@ func GetLocations(n int) (*Model.LocationsAPIResponse, error) {
 }
 
 // SearchForLocation Postal Code or City Name (ex: “13066”, “San Francisco”).
-func SearchForLocation(l string) (*Model.LocationsAPIResponse, error) {
+func SearchForLocation(l string) (*LocationsAPIResponse, error) {
 	queryParams := ""
 
-	var s = new(Model.LocationsAPIResponse)
+	var s = new(LocationsAPIResponse)
 
 	if len(l) == 5 {
 		queryParams = fmt.Sprintf("&locate=%s", l)
