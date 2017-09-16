@@ -3,10 +3,11 @@ package Controller
 import (
 	"encoding/json"
 	"fmt"
-	"grappos_api/Model"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/adamo57/grappos_api/Model"
 )
 
 var retailerBaseURL = "http://www.grappos.com/api2/retailer.php?1=1&format=json"

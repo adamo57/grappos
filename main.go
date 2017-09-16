@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"grappos_api/Controller"
+
+	"github.com/adamo57/grappos_api/Controller"
 )
 
 func main() {

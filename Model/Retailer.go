@@ -1,5 +1,6 @@
 package Model
 
+// Retailer The sruct that holds the retailer data
 type Retailer struct {
 	RetailerID  string  `json:"RetailerID"`
 	Name        string  `json:"name"`
@@ -17,6 +18,7 @@ type Retailer struct {
 	Distance    float32 `json:"distance"`
 }
 
+// RetailersAPIResponse Holds the API response
 type RetailersAPIResponse struct {
 	Retailers []Retailer `json:"retailers"`
 }

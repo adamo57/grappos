@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"grappos_api/Model"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/adamo57/grappos_api/Model"
 )
 
 var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
