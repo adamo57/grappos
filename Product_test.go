@@ -1,4 +1,4 @@
-package grappos_api
+package grappos
 
 import (
 	"testing"
