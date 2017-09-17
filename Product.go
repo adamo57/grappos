@@ -1,4 +1,4 @@
-package Controller
+package grappos_api
 
 import (
 	"encoding/json"
@@ -10,21 +10,18 @@ import (
 
 var productBaseURL = "http://www.grappos.com/api2/subscriber.php?1=1&format=json"
 
-// Product The sruct that holds the product data
-type Product struct {
+type product struct {
 	ProductID   string `json:"ProductID"`
 	Description string `json:"description"`
 	BrandID     string `json:"BrandID"`
 	IsToppick   int    `json:"is_toppick"`
 }
 
-// ProductsAPIResponse Holds the API response
-type ProductsAPIResponse struct {
-	Products []Product `json:"products"`
+type productsAPIResponse struct {
+	Products []product `json:"products"`
 }
 
-// ProductDataRetriever Make calls to api for data.
-func ProductDataRetriever(m *ProductsAPIResponse, q string) error {
+func productDataRetriever(m *productsAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
 		panic(err.Error())
@@ -44,11 +41,11 @@ func ProductDataRetriever(m *ProductsAPIResponse, q string) error {
 }
 
 // GetProducts Returns a list of Products.
-func GetProducts(u string) (*ProductsAPIResponse, error) {
-	var s = new(ProductsAPIResponse)
+func GetProducts(u string) (*productsAPIResponse, error) {
+	var s = new(productsAPIResponse)
 	queryParams := fmt.Sprintf("&uid=%s", u)
 
-	err := ProductDataRetriever(s, productBaseURL+queryParams)
+	err := productDataRetriever(s, productBaseURL+queryParams)
 
 	if len(s.Products) == 0 {
 		err = fmt.Errorf("Product not found with id: %s", u)

@@ -1,4 +1,4 @@
-package Controller
+package grappos_api
 
 import (
 	"encoding/json"
@@ -11,21 +11,18 @@ import (
 
 var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
 
-// Location The sruct that holds the location data
-type Location struct {
+type location struct {
 	DisplayName string `json:"displayName"`
 	Latitude    string `json:"lat"`
 	Longitude   string `json:"lon"`
 	ZipCode     string `json:"zip"`
 }
 
-// LocationsAPIResponse Holds the API response
-type LocationsAPIResponse struct {
-	Locations []Location `json:"locations"`
+type locationsAPIResponse struct {
+	Locations []location `json:"locations"`
 }
 
-// LocationDataRetriever Make calls to api for data.
-func LocationDataRetriever(m *LocationsAPIResponse, q string) error {
+func locationDataRetriever(m *locationsAPIResponse, q string) error {
 	res, err := http.Get(q)
 
 	body, err := ioutil.ReadAll(res.Body)
@@ -36,9 +33,9 @@ func LocationDataRetriever(m *LocationsAPIResponse, q string) error {
 }
 
 // GetLocations Returns all locations.
-func GetLocations(n int) (*LocationsAPIResponse, error) {
+func GetLocations(n int) (*locationsAPIResponse, error) {
 
-	var s = new(LocationsAPIResponse)
+	var s = new(locationsAPIResponse)
 	queryParams := ""
 
 	if n >= 0 {
@@ -47,7 +44,7 @@ func GetLocations(n int) (*LocationsAPIResponse, error) {
 		return s, errors.New("Limit should be a positive int")
 	}
 
-	err := LocationDataRetriever(s, baseURL+queryParams)
+	err := locationDataRetriever(s, baseURL+queryParams)
 	if err != nil {
 		log.Fatalf("Searching for location went wrong: %s", err)
 	}
@@ -56,10 +53,10 @@ func GetLocations(n int) (*LocationsAPIResponse, error) {
 }
 
 // SearchForLocation Postal Code or City Name (ex: “13066”, “San Francisco”).
-func SearchForLocation(l string) (*LocationsAPIResponse, error) {
+func SearchForLocation(l string) (*locationsAPIResponse, error) {
 	queryParams := ""
 
-	var s = new(LocationsAPIResponse)
+	var s = new(locationsAPIResponse)
 
 	if len(l) == 5 {
 		queryParams = fmt.Sprintf("&locate=%s", l)
@@ -67,7 +64,7 @@ func SearchForLocation(l string) (*LocationsAPIResponse, error) {
 		return s, errors.New("Invalid Postal Code")
 	}
 
-	err := LocationDataRetriever(s, baseURL+queryParams)
+	err := locationDataRetriever(s, baseURL+queryParams)
 	if err != nil {
 		log.Fatalf("Searching for location went wrong: %s", err)
 	}
