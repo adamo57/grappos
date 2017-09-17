@@ -27,6 +27,7 @@ type retailer struct {
 	Distance    float32 `json:"distance"`
 }
 
+// RetailerAPIResponse Holds the API response.
 type RetailerAPIResponse struct {
 	Retailers []retailer `json:"retailers"`
 }

@@ -18,6 +18,7 @@ type location struct {
 	ZipCode     string `json:"zip"`
 }
 
+// LocationAPIResponse Holds the API response.
 type LocationAPIResponse struct {
 	Locations []location `json:"locations"`
 }

@@ -17,6 +17,7 @@ type product struct {
 	IsToppick   int    `json:"is_toppick"`
 }
 
+// ProductAPIResponse Holds the API response.
 type ProductAPIResponse struct {
 	Products []product `json:"products"`
 }
