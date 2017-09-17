@@ -17,11 +17,11 @@ type product struct {
 	IsToppick   int    `json:"is_toppick"`
 }
 
-type productsAPIResponse struct {
+type ProductAPIResponse struct {
 	Products []product `json:"products"`
 }
 
-func productDataRetriever(m *productsAPIResponse, q string) error {
+func productDataRetriever(m *ProductAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
 		panic(err.Error())
@@ -41,8 +41,8 @@ func productDataRetriever(m *productsAPIResponse, q string) error {
 }
 
 // GetProducts Returns a list of Products.
-func GetProducts(u string) (*productsAPIResponse, error) {
-	var s = new(productsAPIResponse)
+func GetProducts(u string) (*ProductAPIResponse, error) {
+	var s = new(ProductAPIResponse)
 	queryParams := fmt.Sprintf("&uid=%s", u)
 
 	err := productDataRetriever(s, productBaseURL+queryParams)

@@ -18,11 +18,11 @@ type location struct {
 	ZipCode     string `json:"zip"`
 }
 
-type locationsAPIResponse struct {
+type LocationAPIResponse struct {
 	Locations []location `json:"locations"`
 }
 
-func locationDataRetriever(m *locationsAPIResponse, q string) error {
+func locationDataRetriever(m *LocationAPIResponse, q string) error {
 	res, err := http.Get(q)
 
 	body, err := ioutil.ReadAll(res.Body)
@@ -33,9 +33,9 @@ func locationDataRetriever(m *locationsAPIResponse, q string) error {
 }
 
 // GetLocations Returns all locations.
-func GetLocations(n int) (*locationsAPIResponse, error) {
+func GetLocations(n int) (*LocationAPIResponse, error) {
 
-	var s = new(locationsAPIResponse)
+	var s = new(LocationAPIResponse)
 	queryParams := ""
 
 	if n >= 0 {
@@ -53,10 +53,10 @@ func GetLocations(n int) (*locationsAPIResponse, error) {
 }
 
 // SearchForLocation Postal Code or City Name (ex: “13066”, “San Francisco”).
-func SearchForLocation(l string) (*locationsAPIResponse, error) {
+func SearchForLocation(l string) (*LocationAPIResponse, error) {
 	queryParams := ""
 
-	var s = new(locationsAPIResponse)
+	var s = new(LocationAPIResponse)
 
 	if len(l) == 5 {
 		queryParams = fmt.Sprintf("&locate=%s", l)

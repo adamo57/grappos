@@ -27,11 +27,11 @@ type retailer struct {
 	Distance    float32 `json:"distance"`
 }
 
-type retailersAPIResponse struct {
+type RetailerAPIResponse struct {
 	Retailers []retailer `json:"retailers"`
 }
 
-func retailerDataRetriever(m *retailersAPIResponse, q string) error {
+func retailerDataRetriever(m *RetailerAPIResponse, q string) error {
 	res, err := http.Get(q)
 	if err != nil {
 		panic(err.Error())
@@ -51,8 +51,8 @@ func retailerDataRetriever(m *retailersAPIResponse, q string) error {
 }
 
 // SearchCoordinates Searches a retailer based of their latitude and longitude.
-func SearchCoordinates(lat string, lon string) (*retailersAPIResponse, error) {
-	var s = new(retailersAPIResponse)
+func SearchCoordinates(lat string, lon string) (*RetailerAPIResponse, error) {
+	var s = new(RetailerAPIResponse)
 	queryString := fmt.Sprintf("&lat=%s&lon=%s", lat, lon)
 
 	err := retailerDataRetriever(s, retailerBaseURL+queryString)
@@ -61,8 +61,8 @@ func SearchCoordinates(lat string, lon string) (*retailersAPIResponse, error) {
 }
 
 // SearchProductByID Searches for a retailer that has a given ProductID.
-func SearchProductByID(id int, st string) (*retailersAPIResponse, error) {
-	var s = new(retailersAPIResponse)
+func SearchProductByID(id int, st string) (*RetailerAPIResponse, error) {
+	var s = new(RetailerAPIResponse)
 	queryString := ""
 
 	if checkStoreType(st) {
@@ -77,8 +77,8 @@ func SearchProductByID(id int, st string) (*retailersAPIResponse, error) {
 }
 
 // SearchBrandByID Searches for a retailer that has product(s) with a given BrandID.
-func SearchBrandByID(id int, st string) (*retailersAPIResponse, error) {
-	var s = new(retailersAPIResponse)
+func SearchBrandByID(id int, st string) (*RetailerAPIResponse, error) {
+	var s = new(RetailerAPIResponse)
 	queryString := ""
 
 	if checkStoreType(st) {
