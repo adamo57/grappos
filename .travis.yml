@@ -36,3 +36,6 @@ script:
   - go test ./...                    # Run all the tests with the race detector enabled
   - go vet -v ./...                  # go vet is the official Go static analyzer
   - golint -set_exit_status $PKGS    # one last linter
+  
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
