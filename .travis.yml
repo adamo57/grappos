@@ -32,10 +32,10 @@ before_script:
 # script always run to completion (set +e). All of these code checks are must haves
 # in a modern Go project.
 script:
-  - test -z $(gofmt -s -l $GO_FILES) # Fail if a .go file hasn't been formatted with gofmt
-  - go test ./...                    # Run all the tests with the race detector enabled
-  - go vet -v ./...                  # go vet is the official Go static analyzer
-  - golint -set_exit_status $PKGS    # one last linter
+  - test -z $(gofmt -s -l $GO_FILES)                           # Fail if a .go file hasn't been formatted with gofmt
+  - go test ./... -coverprofile=coverage.txt -covermode=atomic # Run all the tests with the race detector enabled
+  - go vet -v ./...                                            # go vet is the official Go static analyzer
+  - golint -set_exit_status $PKGS                              # one last linter
   
 after_success:
   - bash <(curl -s https://codecov.io/bash)
