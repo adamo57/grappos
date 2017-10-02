@@ -35,3 +35,19 @@ func TestSearchForLocation(t *testing.T) {
 		t.Fatal("This should not work")
 	}
 }
+
+func TestSearchForLocationByCityName(t *testing.T) {
+	goodLocation := "San Francisco"
+	badLocation := "QWERTY-layout"
+
+	_, err := SearchForLocation(goodLocation)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = SearchForLocation(badLocation)
+	if err == nil {
+		t.Fatal("This should not work")
+	}
+}

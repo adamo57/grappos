@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
@@ -58,16 +59,15 @@ func SearchForLocation(l string) (*LocationAPIResponse, error) {
 	queryParams := ""
 
 	var s = new(LocationAPIResponse)
-
-	if len(l) == 5 {
-		queryParams = fmt.Sprintf("&locate=%s", l)
-	} else {
-		return s, errors.New("Invalid Postal Code")
-	}
-
+	queryParams = fmt.Sprintf("&locate=%s", url.QueryEscape(l))
 	err := locationDataRetriever(s, baseURL+queryParams)
+
 	if err != nil {
 		log.Fatalf("Searching for location went wrong: %s", err)
+	}
+
+	if len(s.Locations) == 0 {
+		return s, errors.New("There aren't any wines at that location")
 	}
 
 	return s, err
