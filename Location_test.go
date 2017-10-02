@@ -21,18 +21,11 @@ func TestGetLocations(t *testing.T) {
 }
 
 func TestSearchForLocation(t *testing.T) {
-	goodLocation := "11238"
-	badLocation := "11"
-
-	_, err := SearchForLocation(goodLocation)
+	postcode := "11238"
+	_, err := SearchForLocation(postcode)
 
 	if err != nil {
 		t.Fatal(err)
-	}
-
-	_, err = SearchForLocation(badLocation)
-	if err == nil {
-		t.Fatal("This should not work")
 	}
 }
 
