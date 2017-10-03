@@ -1,16 +1,11 @@
+//Package grappos an API wrapper for the Grappos API
+// (https://www.grappos.com/api-setup/)
 package grappos
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"net/url"
 )
-
-var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
 
 type location struct {
 	DisplayName string `json:"displayName"`
@@ -24,51 +19,43 @@ type LocationAPIResponse struct {
 	Locations []location `json:"locations"`
 }
 
-func locationDataRetriever(m *LocationAPIResponse, q string) error {
-	res, err := http.Get(q)
-
-	body, err := ioutil.ReadAll(res.Body)
-
-	err = json.Unmarshal([]byte(body), &m)
-
-	return err
-}
+var locationDataRetriever = NewDataRetriever("locate")
 
 // GetLocations Returns all locations.
-func GetLocations(n int) (*LocationAPIResponse, error) {
+func GetLocations(n int) (LocationAPIResponse, error) {
 
 	var s = new(LocationAPIResponse)
-	queryParams := ""
 
 	if n >= 0 {
-		queryParams = fmt.Sprintf("&limit=%d", n)
+		m := map[string]string{
+			"limit": fmt.Sprintf("%d", n),
+		}
+		locationDataRetriever.addQueryParams(m)
 	} else {
-		return s, errors.New("Limit should be a positive int")
+		return *s, errors.New("Limit should be a positive int")
 	}
 
-	err := locationDataRetriever(s, baseURL+queryParams)
-	if err != nil {
-		log.Fatalf("Searching for location went wrong: %s", err)
-	}
+	err := locationDataRetriever.getData(s)
 
-	return s, err
+	return *s, err
 }
 
 // SearchForLocation Postal Code or City Name (ex: “13066”, “San Francisco”).
-func SearchForLocation(l string) (*LocationAPIResponse, error) {
-	queryParams := ""
+func SearchForLocation(l string) (LocationAPIResponse, error) {
 
 	var s = new(LocationAPIResponse)
-	queryParams = fmt.Sprintf("&locate=%s", url.QueryEscape(l))
-	err := locationDataRetriever(s, baseURL+queryParams)
 
-	if err != nil {
-		log.Fatalf("Searching for location went wrong: %s", err)
+	m := map[string]string{
+		"locate": l,
 	}
+
+	locationDataRetriever.addQueryParams(m)
+
+	err := locationDataRetriever.getData(s)
 
 	if len(s.Locations) == 0 {
-		return s, errors.New("There aren't any wines at that location")
+		return *s, errors.New("There aren't any wines at that location")
 	}
 
-	return s, err
+	return *s, err
 }

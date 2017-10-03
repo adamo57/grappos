@@ -20,7 +20,7 @@ func TestGetLocations(t *testing.T) {
 	}
 }
 
-func TestSearchForLocation(t *testing.T) {
+func TestSearchForLocationByPostcode(t *testing.T) {
 	postcode := "11238"
 	_, err := SearchForLocation(postcode)
 
