@@ -1,14 +1,9 @@
 package grappos
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 )
-
-var productBaseURL = "http://www.grappos.com/api2/subscriber.php?1=1&format=json"
 
 type product struct {
 	ProductID   string `json:"ProductID"`
@@ -22,35 +17,26 @@ type ProductAPIResponse struct {
 	Products []product `json:"products"`
 }
 
-func productDataRetriever(m *ProductAPIResponse, q string) error {
-	res, err := http.Get(q)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = json.Unmarshal([]byte(body), &m)
-	if err != nil {
-		log.Println("whoops:", err)
-	}
-
-	return err
-}
+var productDataRetriever = NewDataRetriever("subscriber")
 
 // GetProducts Returns a list of Products.
-func GetProducts(u string) (*ProductAPIResponse, error) {
+func GetProducts(u string) (ProductAPIResponse, error) {
+
 	var s = new(ProductAPIResponse)
-	queryParams := fmt.Sprintf("&uid=%s", u)
 
-	err := productDataRetriever(s, productBaseURL+queryParams)
+	m := map[string]string{
+		"uid": u,
+	}
+	productDataRetriever.addQueryParams(m)
 
-	if len(s.Products) == 0 {
-		err = fmt.Errorf("Product not found with id: %s", u)
+	err := productDataRetriever.getData(s)
+	if err != nil {
+		log.Fatalf("Searching for location went wrong: %s", err)
 	}
 
-	return s, err
+	if len(s.Products) == 0 {
+		err = fmt.Errorf("product not found with id: %s", u)
+	}
+
+	return *s, err
 }
