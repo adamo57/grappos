@@ -20,9 +20,18 @@ func TestGetLocations(t *testing.T) {
 	}
 }
 
-func TestSearchForLocation(t *testing.T) {
-	goodLocation := "11238"
-	badLocation := "11"
+func TestSearchForLocationByPostcode(t *testing.T) {
+	postcode := "11238"
+	_, err := SearchForLocation(postcode)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSearchForLocationByCityName(t *testing.T) {
+	goodLocation := "San Francisco"
+	badLocation := "QWERTY-layout"
 
 	_, err := SearchForLocation(goodLocation)
 

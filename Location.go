@@ -45,16 +45,17 @@ func SearchForLocation(l string) (LocationAPIResponse, error) {
 
 	var s = new(LocationAPIResponse)
 
-	if len(l) == 5 {
-		m := map[string]string{
-			"locate": l,
-		}
-		locationDataRetriever.addQueryParams(m)
-	} else {
-		return *s, errors.New("invalid Postal Code")
+	m := map[string]string{
+		"locate": l,
 	}
 
+	locationDataRetriever.addQueryParams(m)
+
 	err := locationDataRetriever.getData(s)
+
+	if len(s.Locations) == 0 {
+		return *s, errors.New("There aren't any wines at that location")
+	}
 
 	return *s, err
 }
