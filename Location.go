@@ -1,3 +1,5 @@
+//Package grappos an API wrapper for the Grappos API
+// (https://www.grappos.com/api-setup/)
 package grappos
 
 import (
