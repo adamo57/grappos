@@ -14,7 +14,7 @@ func TestSearchCoordinates(t *testing.T) {
 func TestSearchProductByID(t *testing.T) {
 	storeTypes := []string{"All", "Wine Shops", "banana"}
 
-	for _, v := range storeTypes  {
+	for _, v := range storeTypes {
 		_, err := SearchProductByID(1, v)
 		if err != nil {
 			t.Fatal(err)
@@ -25,7 +25,7 @@ func TestSearchProductByID(t *testing.T) {
 func TestSearchBrandByID(t *testing.T) {
 	storeTypes := []string{"All", "Wine Shops", "banana"}
 
-	for _, v := range storeTypes  {
+	for _, v := range storeTypes {
 		_, err := SearchBrandByID(1, v)
 		if err != nil {
 			t.Fatal(err)
