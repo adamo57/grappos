@@ -19,11 +19,9 @@ type LocationAPIResponse struct {
 	Locations []location `json:"locations"`
 }
 
-var locationDataRetriever = NewDataRetriever("locate")
-
 // GetLocations Returns all locations.
 func GetLocations(n int) (LocationAPIResponse, error) {
-
+	var locationDataRetriever = NewDataRetriever("locate")
 	var s = new(LocationAPIResponse)
 
 	if n >= 0 {
@@ -32,7 +30,7 @@ func GetLocations(n int) (LocationAPIResponse, error) {
 		}
 		locationDataRetriever.addQueryParams(m)
 	} else {
-		return *s, errors.New("Limit should be a positive int")
+		return *s, errors.New("limit should be a positive int")
 	}
 
 	err := locationDataRetriever.getData(s)
@@ -42,7 +40,7 @@ func GetLocations(n int) (LocationAPIResponse, error) {
 
 // SearchForLocation Postal Code or City Name (ex: “13066”, “San Francisco”).
 func SearchForLocation(l string) (LocationAPIResponse, error) {
-
+	var locationDataRetriever = NewDataRetriever("locate")
 	var s = new(LocationAPIResponse)
 
 	m := map[string]string{
@@ -54,7 +52,7 @@ func SearchForLocation(l string) (LocationAPIResponse, error) {
 	err := locationDataRetriever.getData(s)
 
 	if len(s.Locations) == 0 {
-		return *s, errors.New("There aren't any wines at that location")
+		return *s, errors.New("there aren't any wines at that location")
 	}
 
 	return *s, err

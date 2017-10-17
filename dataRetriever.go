@@ -2,6 +2,7 @@ package grappos
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -38,12 +39,12 @@ func (d *DataRetriever) getData(v interface{}) error {
 
 	res, err := http.Get(d.URL.String())
 	if err != nil {
-		panic(err.Error())
+		err = errors.New("error fetching data")
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		panic(err.Error())
+		err = errors.New("error reading data")
 	}
 
 	err = json.Unmarshal(body, v)

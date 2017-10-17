@@ -26,10 +26,9 @@ type RetailerAPIResponse struct {
 	Retailers []retailer `json:"retailers"`
 }
 
-var retailerDataRetriever = NewDataRetriever("retailer")
-
 // SearchCoordinates Searches a retailer based of their latitude and longitude.
 func SearchCoordinates(lat string, lon string) (RetailerAPIResponse, error) {
+	var retailerDataRetriever = NewDataRetriever("retailer")
 	var s = new(RetailerAPIResponse)
 
 	m := map[string]string{
@@ -48,7 +47,9 @@ func SearchCoordinates(lat string, lon string) (RetailerAPIResponse, error) {
 
 // SearchProductByID Searches for a retailer that has a given ProductID.
 func SearchProductByID(id int, st string) (RetailerAPIResponse, error) {
+	var retailerDataRetriever = NewDataRetriever("retailer")
 	var s = new(RetailerAPIResponse)
+
 	m := map[string]string{}
 
 	if checkStoreType(st) {
@@ -68,7 +69,9 @@ func SearchProductByID(id int, st string) (RetailerAPIResponse, error) {
 
 // SearchBrandByID Searches for a retailer that has product(s) with a given BrandID.
 func SearchBrandByID(id int, st string) (RetailerAPIResponse, error) {
+	var retailerDataRetriever = NewDataRetriever("retailer")
 	var s = new(RetailerAPIResponse)
+
 	m := map[string]string{}
 
 	if checkStoreType(st) {

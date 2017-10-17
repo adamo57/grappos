@@ -1,8 +1,7 @@
 package grappos
 
 import (
-	"fmt"
-	"log"
+	"errors"
 )
 
 type product struct {
@@ -17,11 +16,9 @@ type ProductAPIResponse struct {
 	Products []product `json:"products"`
 }
 
-var productDataRetriever = NewDataRetriever("subscriber")
-
 // GetProducts Returns a list of Products.
 func GetProducts(u string) (ProductAPIResponse, error) {
-
+	var productDataRetriever = NewDataRetriever("subscriber")
 	var s = new(ProductAPIResponse)
 
 	m := map[string]string{
@@ -31,11 +28,11 @@ func GetProducts(u string) (ProductAPIResponse, error) {
 
 	err := productDataRetriever.getData(s)
 	if err != nil {
-		log.Fatalf("Searching for location went wrong: %s", err)
+		err = errors.New("searching for location went wrong")
 	}
 
 	if len(s.Products) == 0 {
-		err = fmt.Errorf("product not found with id: %s", u)
+		err = errors.New("product not found with id")
 	}
 
 	return *s, err
